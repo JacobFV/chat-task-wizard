@@ -7,27 +7,30 @@ export const useTaskContext = () => useContext(TaskContext);
 const mockTasks = [
   {
     id: 1,
-    title: 'Analyze market trends',
+    title: 'Analyze AI ethics implications',
     readyForInput: true,
     readyForOutput: false,
     context: 'Conversation 1',
-    description: 'Analyze recent market trends for tech startups.',
+    description: 'Analyze the ethical implications of AI development discussed in the conversation.',
+    contextMessage: 'The main ethical concerns in AI development include bias in algorithms, privacy issues, job displacement, accountability for AI decisions, and the potential for AI to be used maliciously.',
   },
   {
     id: 2,
-    title: 'Generate report',
+    title: 'Summarize climate change solutions',
     readyForInput: false,
     readyForOutput: true,
     context: 'Conversation 2',
-    description: 'Generate a comprehensive report on Q2 performance.',
+    description: 'Create a summary of innovative technologies being developed to combat climate change.',
+    contextMessage: 'Several innovative technologies are being developed to combat climate change. These include: 1) Direct Air Capture (DAC) systems that remove CO2 directly from the atmosphere. 2) Advanced energy storage solutions like solid-state batteries to support renewable energy integration.',
   },
   {
     id: 3,
-    title: 'Brainstorm product ideas',
+    title: 'Draft AI transparency guidelines',
     readyForInput: true,
     readyForOutput: false,
     context: 'Conversation 1',
-    description: 'Come up with innovative product ideas for the upcoming quarter.',
+    description: 'Create a draft of guidelines for ensuring transparency in AI systems based on the discussion.',
+    contextMessage: 'Transparency is crucial in ethical AI development. It involves making the decision-making processes of AI systems understandable to users and stakeholders.',
   },
 ];
 
