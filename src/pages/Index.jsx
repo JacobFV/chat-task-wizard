@@ -59,7 +59,7 @@ const Index = () => {
               {leftPaneCollapsed ? <ChevronRightIcon /> : <ChevronLeftIcon />}
             </button>
           </div>
-          <div className={`transition-all duration-300 ${leftPaneCollapsed && rightPaneCollapsed ? 'w-full' : 'w-1/2'} border-r border-gray-700`}>
+          <div className={`transition-all duration-300 ${leftPaneCollapsed && rightPaneCollapsed ? 'w-full' : leftPaneCollapsed || rightPaneCollapsed ? 'w-3/4' : 'w-1/2'} border-r border-gray-700`}>
             <ConversationView conversation={activeConversation} />
           </div>
           <div className={`transition-all duration-300 ${rightPaneCollapsed ? 'w-12' : 'w-1/4'} flex`}>
