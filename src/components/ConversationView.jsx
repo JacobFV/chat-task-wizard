@@ -2,8 +2,8 @@ import React from 'react';
 
 const ConversationView = ({ conversation }) => {
   return (
-    <div className="bg-white p-4 h-screen overflow-y-auto">
-      <h2 className="text-xl font-bold mb-4">{conversation.title}</h2>
+    <div className="bg-white/30 backdrop-blur-md p-4 h-screen overflow-y-auto rounded-lg shadow-lg">
+      <h2 className="text-xl font-bold mb-4 text-gray-800">{conversation.title}</h2>
       <div className="space-y-4">
         {conversation.messages.map((message, index) => (
           <div
