@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import ConversationList from '../components/ConversationList';
 import ConversationView from '../components/ConversationView';
 import TaskList from '../components/TaskList';
+import ChatBar from '../components/ChatBar';
 import { TaskProvider } from '../contexts/TaskContext';
 import { ChevronLeftIcon, ChevronRightIcon, MessageSquareIcon, CheckSquareIcon } from 'lucide-react';
 
@@ -42,21 +43,45 @@ const Index = () => {
   const toggleLeftPane = () => setLeftPaneCollapsed(!leftPaneCollapsed);
   const toggleRightPane = () => setRightPaneCollapsed(!rightPaneCollapsed);
 
+  const handleSendMessage = (message) => {
+    // Add the new message to the active conversation
+    const updatedConversations = conversations.map(conv =>
+      conv.id === activeConversation.id
+        ? {
+            ...conv,
+            messages: [
+              ...conv.messages,
+              {
+                id: Date.now(),
+                author: 'user',
+                content: message,
+                timestamp: new Date().toISOString(),
+                chatId: conv.id,
+                readByIds: [1], // Assuming current user id is 1
+              }
+            ]
+          }
+        : conv
+    );
+    setConversations(updatedConversations);
+    setActiveConversation(updatedConversations.find(conv => conv.id === activeConversation.id));
+  };
+
   return (
     <TaskProvider>
       <div className="flex flex-col h-screen bg-gradient-to-br from-gray-800 via-gray-900 to-black text-gray-200 relative overflow-hidden">
         <div className="absolute inset-0 overflow-hidden">
           <div className="shimmer"></div>
         </div>
-        <header className="flex justify-between items-center p-2 bg-gray-800 border-b border-gray-700 relative z-20">
-          <button onClick={toggleLeftPane} className="p-2 hover:bg-gray-700 rounded transition-colors flex items-center">
-            <MessageSquareIcon className="h-5 w-5 mr-2" />
-            {leftPaneCollapsed ? 'Show Conversations' : 'Hide Conversations'}
+        <header className="flex justify-between items-center p-1 bg-gray-800 border-b border-gray-700 relative z-20">
+          <button onClick={toggleLeftPane} className="p-1 hover:bg-gray-700 rounded transition-colors flex items-center">
+            <MessageSquareIcon className="h-4 w-4 mr-1" />
+            {leftPaneCollapsed ? 'Show' : 'Hide'}
           </button>
-          <h1 className="text-xl font-bold">Chat Task Wizard</h1>
-          <button onClick={toggleRightPane} className="p-2 hover:bg-gray-700 rounded transition-colors flex items-center">
-            <CheckSquareIcon className="h-5 w-5 mr-2" />
-            {rightPaneCollapsed ? 'Show Tasks' : 'Hide Tasks'}
+          <h1 className="text-lg font-bold">Chat Task Wizard</h1>
+          <button onClick={toggleRightPane} className="p-1 hover:bg-gray-700 rounded transition-colors flex items-center">
+            <CheckSquareIcon className="h-4 w-4 mr-1" />
+            {rightPaneCollapsed ? 'Show' : 'Hide'}
           </button>
         </header>
         <div className="flex flex-grow relative z-10">
@@ -69,8 +94,11 @@ const Index = () => {
               />
             )}
           </div>
-          <div className={`transition-all duration-300 ${leftPaneCollapsed && rightPaneCollapsed ? 'w-full' : leftPaneCollapsed || rightPaneCollapsed ? 'w-3/4' : 'w-1/2'}`}>
-            <ConversationView conversation={activeConversation} />
+          <div className={`transition-all duration-300 flex flex-col ${leftPaneCollapsed && rightPaneCollapsed ? 'w-full' : leftPaneCollapsed || rightPaneCollapsed ? 'w-3/4' : 'w-1/2'}`}>
+            <div className="flex-grow overflow-y-auto">
+              <ConversationView conversation={activeConversation} />
+            </div>
+            <ChatBar onSendMessage={handleSendMessage} />
           </div>
           <div className={`transition-all duration-300 ${rightPaneCollapsed ? 'w-0' : 'w-1/4'} border-l border-gray-700`}>
             {!rightPaneCollapsed && <TaskList activeConversationId={activeConversation.id} />}
