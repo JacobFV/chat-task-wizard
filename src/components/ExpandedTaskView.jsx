@@ -10,11 +10,11 @@ const ExpandedTaskView = ({ task }) => {
   };
 
   return (
-    <div className="mt-2 p-2 bg-white/70 rounded">
-      <p className="text-sm text-gray-700">{task.description}</p>
+    <div className="mt-2 p-2 bg-gray-700/50 rounded">
+      <p className="text-sm text-gray-300">{task.description}</p>
       <button
         onClick={handleNavigate}
-        className="mt-2 px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+        className="mt-2 px-3 py-1 bg-gray-600 text-gray-200 rounded hover:bg-gray-500 transition-colors"
       >
         Go to Conversation
       </button>

@@ -28,15 +28,15 @@ const Index = () => {
 
   return (
     <TaskProvider>
-      <div className="flex h-screen bg-gradient-to-br from-purple-400 via-pink-500 to-red-500">
-        <div className="w-1/4 border-r border-white/20">
+      <div className="flex h-screen bg-gradient-to-br from-gray-800 via-gray-900 to-black text-gray-200">
+        <div className="w-1/4 border-r border-gray-700">
           <ConversationList
             conversations={conversations}
             activeConversation={activeConversation}
             setActiveConversation={setActiveConversation}
           />
         </div>
-        <div className="w-1/2 border-r border-white/20">
+        <div className="w-1/2 border-r border-gray-700">
           <ConversationView conversation={activeConversation} />
         </div>
         <div className="w-1/4">
