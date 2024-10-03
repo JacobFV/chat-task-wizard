@@ -7,31 +7,39 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
+// Mock action library - in a real app, this would be imported from a separate file
+const actionLibrary = [
+  { id: 'web_search', name: 'Web Search' },
+  { id: 'code_execution', name: 'Code Execution' },
+  { id: 'data_analysis', name: 'Data Analysis' },
+  { id: 'image_generation', name: 'Image Generation' },
+];
+
 const ChatSettingsModal = ({ isOpen, onClose, chat }) => {
-  const [enabledTasks, setEnabledTasks] = useState([]);
+  const [enabledActions, setEnabledActions] = useState([]);
   const [participants, setParticipants] = useState([]);
   const [newParticipant, setNewParticipant] = useState('');
   const [newParticipantPermission, setNewParticipantPermission] = useState('can_view');
 
   useEffect(() => {
     if (chat) {
-      setEnabledTasks(chat.enabledTasks || []);
+      setEnabledActions(chat.enabledActions || []);
       setParticipants(chat.participants || []);
     }
   }, [chat]);
 
   const handleSave = () => {
-    // Save the enabled tasks and participants for the chat
-    console.log('Saving enabled tasks:', enabledTasks);
+    // Save the enabled actions and participants for the chat
+    console.log('Saving enabled actions:', enabledActions);
     console.log('Saving participants:', participants);
     onClose();
   };
 
-  const toggleTask = (task) => {
-    setEnabledTasks((prev) =>
-      prev.includes(task)
-        ? prev.filter((t) => t !== task)
-        : [...prev, task]
+  const toggleAction = (actionId) => {
+    setEnabledActions((prev) =>
+      prev.includes(actionId)
+        ? prev.filter((id) => id !== actionId)
+        : [...prev, actionId]
     );
   };
 
@@ -59,16 +67,16 @@ const ChatSettingsModal = ({ isOpen, onClose, chat }) => {
         </DialogHeader>
         <div className="py-4 space-y-4">
           <div>
-            <h3 className="mb-2 font-semibold">Enable LLM Tasks:</h3>
+            <h3 className="mb-2 font-semibold">Enable Actions:</h3>
             <div className="space-y-2">
-              {['Web Search', 'Code Execution', 'Data Analysis', 'Image Generation'].map((task) => (
-                <div key={task} className="flex items-center space-x-2">
+              {actionLibrary.map((action) => (
+                <div key={action.id} className="flex items-center space-x-2">
                   <Checkbox
-                    id={task}
-                    checked={enabledTasks.includes(task)}
-                    onCheckedChange={() => toggleTask(task)}
+                    id={action.id}
+                    checked={enabledActions.includes(action.id)}
+                    onCheckedChange={() => toggleAction(action.id)}
                   />
-                  <Label htmlFor={task}>{task}</Label>
+                  <Label htmlFor={action.id}>{action.name}</Label>
                 </div>
               ))}
             </div>

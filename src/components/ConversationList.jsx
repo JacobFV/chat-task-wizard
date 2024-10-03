@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MoreVertical, Settings, Share2, Edit2, Trash2 } from 'lucide-react';
+import { MoreVertical, Settings, Share2, Edit2, Trash2, Plus } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -10,10 +10,14 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import ChatSettingsModal from './ChatSettingsModal';
 import ShareModal from './ShareModal';
+import DeleteConfirmModal from './DeleteConfirmModal';
+import RenameModal from './RenameModal';
 
-const ConversationList = ({ conversations, activeConversation, setActiveConversation }) => {
+const ConversationList = ({ conversations, activeConversation, setActiveConversation, onNewChat }) => {
   const [chatSettingsOpen, setChatSettingsOpen] = useState(false);
   const [shareModalOpen, setShareModalOpen] = useState(false);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [renameModalOpen, setRenameModalOpen] = useState(false);
   const [selectedChat, setSelectedChat] = useState(null);
 
   // Sort conversations to put the active one at the top
@@ -34,19 +38,30 @@ const ConversationList = ({ conversations, activeConversation, setActiveConversa
   };
 
   const handleRename = (chat) => {
-    // Implement rename functionality
-    console.log('Rename chat:', chat);
+    setSelectedChat(chat);
+    setRenameModalOpen(true);
   };
 
   const handleDelete = (chat) => {
+    setSelectedChat(chat);
+    setDeleteModalOpen(true);
+  };
+
+  const confirmDelete = () => {
     // Implement delete functionality
-    console.log('Delete chat:', chat);
+    console.log('Deleting chat:', selectedChat);
+    setDeleteModalOpen(false);
+  };
+
+  const confirmRename = (newName) => {
+    // Implement rename functionality
+    console.log('Renaming chat:', selectedChat, 'to', newName);
   };
 
   return (
-    <div className="bg-gray-900/50 backdrop-blur-md p-4 h-screen overflow-y-auto">
-      <ul>
-        {sortedConversations.map((conversation) => (
+    <div className="bg-gray-900/50 backdrop-blur-md p-4 h-screen overflow-y-auto flex flex-col">
+      <ul className="flex-grow">
+        {conversations.map((conversation) => (
           <li
             key={conversation.id}
             className={`cursor-pointer p-2 mb-2 rounded transition-all duration-300 flex items-center justify-between ${
@@ -103,6 +118,9 @@ const ConversationList = ({ conversations, activeConversation, setActiveConversa
           </li>
         ))}
       </ul>
+      <Button onClick={onNewChat} className="mt-4 w-full">
+        <Plus className="mr-2 h-4 w-4" /> New Chat
+      </Button>
       <ChatSettingsModal
         isOpen={chatSettingsOpen}
         onClose={() => setChatSettingsOpen(false)}
@@ -112,6 +130,18 @@ const ConversationList = ({ conversations, activeConversation, setActiveConversa
         isOpen={shareModalOpen}
         onClose={() => setShareModalOpen(false)}
         chatId={selectedChat?.id}
+      />
+      <DeleteConfirmModal
+        isOpen={deleteModalOpen}
+        onClose={() => setDeleteModalOpen(false)}
+        onConfirm={confirmDelete}
+        itemName={selectedChat?.title || 'this chat'}
+      />
+      <RenameModal
+        isOpen={renameModalOpen}
+        onClose={() => setRenameModalOpen(false)}
+        onRename={confirmRename}
+        currentName={selectedChat?.title || ''}
       />
     </div>
   );
