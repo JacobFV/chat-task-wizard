@@ -1,13 +1,49 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import React, { useState } from 'react';
+import ConversationList from '../components/ConversationList';
+import ConversationView from '../components/ConversationView';
+import TaskList from '../components/TaskList';
+import { TaskProvider } from '../contexts/TaskContext';
 
 const Index = () => {
+  const [conversations, setConversations] = useState([
+    {
+      id: 1,
+      title: 'Conversation 1',
+      messages: [
+        { sender: 'user', content: 'Hello, AI!' },
+        { sender: 'ai', content: 'Hello! How can I assist you today?' },
+      ],
+    },
+    {
+      id: 2,
+      title: 'Conversation 2',
+      messages: [
+        { sender: 'user', content: 'What\'s the weather like?' },
+        { sender: 'ai', content: 'I\'m sorry, I don\'t have real-time weather information. You might want to check a weather app or website for the most up-to-date forecast.' },
+      ],
+    },
+  ]);
+
+  const [activeConversation, setActiveConversation] = useState(conversations[0]);
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
+    <TaskProvider>
+      <div className="flex h-screen">
+        <div className="w-1/4 border-r">
+          <ConversationList
+            conversations={conversations}
+            activeConversation={activeConversation}
+            setActiveConversation={setActiveConversation}
+          />
+        </div>
+        <div className="w-1/2 border-r">
+          <ConversationView conversation={activeConversation} />
+        </div>
+        <div className="w-1/4">
+          <TaskList />
+        </div>
       </div>
-    </div>
+    </TaskProvider>
   );
 };
 
