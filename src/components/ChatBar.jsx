@@ -15,7 +15,7 @@ const ChatBar = ({ onSendMessage }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="absolute bottom-8 left-4 right-4">
+    <form onSubmit={handleSubmit} className="absolute bottom-[4em] left-4 right-4">
       <div className="flex items-center space-x-2 p-2 bg-gray-800 border border-gray-700 rounded-full shadow-lg">
         <Button type="button" variant="ghost" size="icon" className="rounded-full">
           <Paperclip className="h-5 w-5" />
