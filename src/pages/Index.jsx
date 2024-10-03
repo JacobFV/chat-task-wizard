@@ -4,7 +4,9 @@ import ConversationView from '../components/ConversationView';
 import TaskList from '../components/TaskList';
 import ChatBar from '../components/ChatBar';
 import { TaskProvider } from '../contexts/TaskContext';
-import { ChevronLeftIcon, ChevronRightIcon, MessageSquareIcon, CheckSquareIcon } from 'lucide-react';
+import { MessageSquareIcon, CheckSquareIcon, Settings } from 'lucide-react';
+import SettingsModal from '../components/SettingsModal';
+import { Button } from '@/components/ui/button';
 
 const Index = () => {
   const [conversations, setConversations] = useState([
@@ -39,6 +41,7 @@ const Index = () => {
   const [activeConversation, setActiveConversation] = useState(conversations[0]);
   const [leftPaneCollapsed, setLeftPaneCollapsed] = useState(false);
   const [rightPaneCollapsed, setRightPaneCollapsed] = useState(false);
+  const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
 
   const toggleLeftPane = () => setLeftPaneCollapsed(!leftPaneCollapsed);
   const toggleRightPane = () => setRightPaneCollapsed(!rightPaneCollapsed);
@@ -74,15 +77,18 @@ const Index = () => {
           <div className="shimmer"></div>
         </div>
         <header className="flex justify-between items-center p-1 bg-gray-800 border-b border-gray-700 relative z-20">
-          <button onClick={toggleLeftPane} className="p-1 hover:bg-gray-700 rounded transition-colors flex items-center">
-            <MessageSquareIcon className="h-4 w-4 mr-1" />
-            {leftPaneCollapsed ? 'Show' : 'Hide'}
-          </button>
+          <Button onClick={toggleLeftPane} variant="ghost" size="icon">
+            <MessageSquareIcon className="h-4 w-4" />
+          </Button>
           <h1 className="text-lg font-bold">Chat Task Wizard</h1>
-          <button onClick={toggleRightPane} className="p-1 hover:bg-gray-700 rounded transition-colors flex items-center">
-            <CheckSquareIcon className="h-4 w-4 mr-1" />
-            {rightPaneCollapsed ? 'Show' : 'Hide'}
-          </button>
+          <div className="flex items-center">
+            <Button onClick={toggleRightPane} variant="ghost" size="icon" className="mr-2">
+              <CheckSquareIcon className="h-4 w-4" />
+            </Button>
+            <Button onClick={() => setIsSettingsModalOpen(true)} variant="ghost" size="icon">
+              <Settings className="h-4 w-4" />
+            </Button>
+          </div>
         </header>
         <div className="flex flex-grow relative z-10">
           <div className={`transition-all duration-300 ${leftPaneCollapsed ? 'w-0' : 'w-1/4'} border-r border-gray-700`}>
@@ -104,6 +110,7 @@ const Index = () => {
             {!rightPaneCollapsed && <TaskList activeConversationId={activeConversation.id} />}
           </div>
         </div>
+        <SettingsModal isOpen={isSettingsModalOpen} onClose={() => setIsSettingsModalOpen(false)} />
       </div>
     </TaskProvider>
   );

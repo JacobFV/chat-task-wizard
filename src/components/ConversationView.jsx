@@ -22,10 +22,12 @@ const ConversationView = ({ conversation }) => {
             <small className="text-gray-400">
               {new Date(message.timestamp).toLocaleString()} - Read by: {message.readByIds.length}
             </small>
+            <small className="block text-gray-500 mt-1">
+              {message.author === 'user' ? 'You' : 'AI'}
+            </small>
           </div>
         ))}
       </div>
-      {/* Add a form or input field here to send new messages */}
     </div>
   );
 };
