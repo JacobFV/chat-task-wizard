@@ -46,7 +46,7 @@ const ConversationList = ({ conversations, activeConversation, setActiveConversa
         {sortedConversations.map((conversation) => (
           <li
             key={conversation.id}
-            className={`cursor-pointer p-2 mb-2 rounded transition-all duration-300 flex items-center justify-between ${
+            className={`cursor-pointer p-1 mb-1 rounded transition-all duration-300 flex items-center justify-between ${
               activeConversation.id === conversation.id ? 'bg-gray-700/50 shadow-md' : 'hover:bg-gray-800/50'
             }`}
           >
@@ -54,16 +54,16 @@ const ConversationList = ({ conversations, activeConversation, setActiveConversa
               className="flex items-center flex-grow"
               onClick={() => setActiveConversation(conversation)}
             >
-              <MessageSquareIcon className="h-5 w-5 mr-2" />
-              <span>{conversation.title}</span>
+              <MessageSquareIcon className="h-4 w-4 mr-2" />
+              <span className="text-sm truncate">{conversation.title}</span>
               {conversation.hasUnread && (
                 <span className="ml-auto w-2 h-2 bg-blue-500 rounded-full"></span>
               )}
             </div>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <MoreVertical className="h-4 w-4" />
+                <Button variant="ghost" size="icon" className="h-6 w-6 p-0">
+                  <MoreVertical className="h-3 w-3" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
