@@ -3,7 +3,14 @@ import { useTaskContext } from '../contexts/TaskContext';
 import ExpandedTaskView from './ExpandedTaskView';
 
 const TaskList = () => {
-  const { tasks, expandedTaskId, toggleTaskExpansion } = useTaskContext();
+  const taskContext = useTaskContext();
+  
+  // Check if taskContext is undefined or null
+  if (!taskContext) {
+    return <div>Loading tasks...</div>;
+  }
+
+  const { tasks, expandedTaskId, toggleTaskExpansion } = taskContext;
 
   return (
     <div className="bg-gray-900/50 backdrop-blur-md p-4 h-screen overflow-y-auto">
