@@ -3,7 +3,7 @@ import ConversationList from '../components/ConversationList';
 import ConversationView from '../components/ConversationView';
 import TaskList from '../components/TaskList';
 import { TaskProvider } from '../contexts/TaskContext';
-import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
+import { ChevronLeftIcon, ChevronRightIcon, MenuIcon } from 'lucide-react';
 
 const Index = () => {
   const [conversations, setConversations] = useState([
@@ -42,33 +42,34 @@ const Index = () => {
 
   return (
     <TaskProvider>
-      <div className="flex h-screen bg-gradient-to-br from-gray-800 via-gray-900 to-black text-gray-200 relative overflow-hidden">
+      <div className="flex flex-col h-screen bg-gradient-to-br from-gray-800 via-gray-900 to-black text-gray-200 relative overflow-hidden">
         <div className="absolute inset-0 overflow-hidden">
           <div className="shimmer"></div>
         </div>
-        <div className="flex w-full h-full relative z-10">
-          <div className={`transition-all duration-300 ${leftPaneCollapsed ? 'w-12' : 'w-1/4'} border-r border-gray-700 flex`}>
-            <div className={`flex-grow overflow-hidden ${leftPaneCollapsed ? 'hidden' : 'block'}`}>
+        <header className="flex justify-between items-center p-4 bg-gray-800 border-b border-gray-700 relative z-20">
+          <button onClick={toggleLeftPane} className="p-2 hover:bg-gray-700 rounded transition-colors">
+            <MenuIcon className="h-6 w-6" />
+          </button>
+          <h1 className="text-xl font-bold">Chat Task Wizard</h1>
+          <button onClick={toggleRightPane} className="p-2 hover:bg-gray-700 rounded transition-colors">
+            <ChevronLeftIcon className="h-6 w-6" />
+          </button>
+        </header>
+        <div className="flex flex-grow relative z-10">
+          <div className={`transition-all duration-300 ${leftPaneCollapsed ? 'w-0' : 'w-1/4'} border-r border-gray-700`}>
+            {!leftPaneCollapsed && (
               <ConversationList
                 conversations={conversations}
                 activeConversation={activeConversation}
                 setActiveConversation={setActiveConversation}
               />
-            </div>
-            <button onClick={toggleLeftPane} className="p-2 bg-gray-800 hover:bg-gray-700 transition-colors">
-              {leftPaneCollapsed ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-            </button>
+            )}
           </div>
-          <div className={`transition-all duration-300 ${leftPaneCollapsed && rightPaneCollapsed ? 'w-full' : leftPaneCollapsed || rightPaneCollapsed ? 'w-3/4' : 'w-1/2'} border-r border-gray-700`}>
+          <div className={`transition-all duration-300 ${leftPaneCollapsed && rightPaneCollapsed ? 'w-full' : leftPaneCollapsed || rightPaneCollapsed ? 'w-3/4' : 'w-1/2'}`}>
             <ConversationView conversation={activeConversation} />
           </div>
-          <div className={`transition-all duration-300 ${rightPaneCollapsed ? 'w-12' : 'w-1/4'} flex`}>
-            <button onClick={toggleRightPane} className="p-2 bg-gray-800 hover:bg-gray-700 transition-colors">
-              {rightPaneCollapsed ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-            </button>
-            <div className={`flex-grow overflow-hidden ${rightPaneCollapsed ? 'hidden' : 'block'}`}>
-              <TaskList />
-            </div>
+          <div className={`transition-all duration-300 ${rightPaneCollapsed ? 'w-0' : 'w-1/4'} border-l border-gray-700`}>
+            {!rightPaneCollapsed && <TaskList />}
           </div>
         </div>
       </div>
