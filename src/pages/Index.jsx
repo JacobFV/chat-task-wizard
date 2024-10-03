@@ -4,7 +4,7 @@ import ConversationView from '../components/ConversationView';
 import TaskList from '../components/TaskList';
 import ChatBar from '../components/ChatBar';
 import { TaskProvider } from '../contexts/TaskContext';
-import { MessageSquareIcon, CheckSquareIcon } from 'lucide-react';
+import { ChevronLeftIcon, ChevronRightIcon, MessageSquareIcon, CheckSquareIcon } from 'lucide-react';
 
 const Index = () => {
   const [conversations, setConversations] = useState([
