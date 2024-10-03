@@ -15,9 +15,9 @@ const ChatBar = ({ onSendMessage }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="p-4">
+    <form onSubmit={handleSubmit} className="p-2 sm:p-4">
       <div className="flex items-center space-x-2 p-2 bg-gray-800 border border-gray-700 rounded-full shadow-lg">
-        <Button type="button" variant="ghost" size="icon" className="rounded-full">
+        <Button type="button" variant="ghost" size="icon" className="rounded-full hidden sm:flex">
           <Paperclip className="h-5 w-5" />
         </Button>
         <Input
@@ -27,7 +27,7 @@ const ChatBar = ({ onSendMessage }) => {
           onChange={(e) => setMessage(e.target.value)}
           className="flex-grow bg-transparent border-none focus:ring-0 text-white"
         />
-        <Button type="button" variant="ghost" size="icon" className="rounded-full">
+        <Button type="button" variant="ghost" size="icon" className="rounded-full hidden sm:flex">
           <Mic className="h-5 w-5" />
         </Button>
         <Button type="submit" variant="ghost" size="icon" className="rounded-full">

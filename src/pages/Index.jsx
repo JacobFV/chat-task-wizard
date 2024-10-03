@@ -42,9 +42,18 @@ const Index = () => {
   const [leftPaneCollapsed, setLeftPaneCollapsed] = useState(false);
   const [rightPaneCollapsed, setRightPaneCollapsed] = useState(false);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
+  const [isMobileView, setIsMobileView] = useState(window.innerWidth < 768);
 
   const toggleLeftPane = () => setLeftPaneCollapsed(!leftPaneCollapsed);
   const toggleRightPane = () => setRightPaneCollapsed(!rightPaneCollapsed);
+
+  React.useEffect(() => {
+    const handleResize = () => {
+      setIsMobileView(window.innerWidth < 768);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handleSendMessage = (message) => {
     // Add the new message to the active conversation
@@ -91,24 +100,26 @@ const Index = () => {
           </div>
         </header>
         <div className="flex flex-grow relative z-10">
-          <div className={`transition-all duration-300 ${leftPaneCollapsed ? 'w-0' : 'w-1/4'} border-r border-gray-700`}>
-            {!leftPaneCollapsed && (
+          {(!isMobileView || !leftPaneCollapsed) && (
+            <div className={`transition-all duration-300 ${isMobileView ? 'absolute inset-0 z-30' : leftPaneCollapsed ? 'w-0' : 'w-1/4'} border-r border-gray-700`}>
               <ConversationList
                 conversations={conversations}
                 activeConversation={activeConversation}
                 setActiveConversation={setActiveConversation}
               />
-            )}
-          </div>
-          <div className={`transition-all duration-300 flex flex-col ${leftPaneCollapsed && rightPaneCollapsed ? 'w-full' : leftPaneCollapsed || rightPaneCollapsed ? 'w-3/4' : 'w-1/2'}`}>
+            </div>
+          )}
+          <div className={`transition-all duration-300 flex flex-col ${isMobileView ? 'w-full' : leftPaneCollapsed && rightPaneCollapsed ? 'w-full' : leftPaneCollapsed || rightPaneCollapsed ? 'w-3/4' : 'w-1/2'}`}>
             <div className="flex-grow overflow-y-auto">
               <ConversationView conversation={activeConversation} />
             </div>
             <ChatBar onSendMessage={handleSendMessage} />
           </div>
-          <div className={`transition-all duration-300 ${rightPaneCollapsed ? 'w-0' : 'w-1/4'} border-l border-gray-700`}>
-            {!rightPaneCollapsed && <TaskList activeConversationId={activeConversation.id} />}
-          </div>
+          {(!isMobileView || !rightPaneCollapsed) && (
+            <div className={`transition-all duration-300 ${isMobileView ? 'absolute inset-0 z-30' : rightPaneCollapsed ? 'w-0' : 'w-1/4'} border-l border-gray-700`}>
+              <TaskList activeConversationId={activeConversation.id} />
+            </div>
+          )}
         </div>
         <SettingsModal isOpen={isSettingsModalOpen} onClose={() => setIsSettingsModalOpen(false)} />
       </div>
