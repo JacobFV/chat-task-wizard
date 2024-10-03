@@ -4,8 +4,9 @@ import ConversationView from '../components/ConversationView';
 import TaskList from '../components/TaskList';
 import ChatBar from '../components/ChatBar';
 import { TaskProvider } from '../contexts/TaskContext';
-import { MessageSquareIcon, CheckSquareIcon, Settings } from 'lucide-react';
+import { MessageSquareIcon, CheckSquareIcon, Settings, Share2 } from 'lucide-react';
 import SettingsModal from '../components/SettingsModal';
+import ShareModal from '../components/ShareModal';
 import { Button } from '@/components/ui/button';
 
 const Index = () => {
@@ -22,6 +23,7 @@ const Index = () => {
         { id: 6, author: 'ai', content: 'Transparency is crucial in ethical AI development. It involves making the decision-making processes of AI systems understandable to users and stakeholders. This includes explaining how AI arrives at its conclusions, what data it uses, and its limitations. Transparency builds trust, allows for better oversight, and helps identify potential biases or errors in AI systems.', timestamp: '2023-04-10T10:05:00Z', chatId: 1, readByIds: [1] },
       ],
       hasUnread: true,
+      participants: [{ id: 1, name: 'User1' }, { id: 2, name: 'User2' }],
     },
     {
       id: 2,
@@ -35,6 +37,7 @@ const Index = () => {
         { id: 12, author: 'ai', content: 'Individuals can play a significant role in combating climate change through various actions: 1) Reducing energy consumption at home and opting for renewable energy sources. 2) Choosing sustainable transportation options like walking, cycling, or using public transit. 3) Adopting a more plant-based diet to reduce the carbon footprint of food consumption. 4) Practicing responsible consumption and reducing waste. 5) Supporting and voting for policies and leaders committed to climate action. 6) Educating others and participating in community initiatives for sustainability.', timestamp: '2023-04-11T14:05:00Z', chatId: 2, readByIds: [1] },
       ],
       hasUnread: false,
+      participants: [{ id: 3, name: 'User3' }, { id: 4, name: 'User4' }],
     },
   ]);
 
@@ -42,6 +45,7 @@ const Index = () => {
   const [leftPaneCollapsed, setLeftPaneCollapsed] = useState(false);
   const [rightPaneCollapsed, setRightPaneCollapsed] = useState(false);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [isMobileView, setIsMobileView] = useState(window.innerWidth < 768);
 
   const toggleLeftPane = () => setLeftPaneCollapsed(!leftPaneCollapsed);
@@ -56,7 +60,6 @@ const Index = () => {
   }, []);
 
   const handleSendMessage = (message) => {
-    // Add the new message to the active conversation
     const updatedConversations = conversations.map(conv =>
       conv.id === activeConversation.id
         ? {
@@ -69,7 +72,7 @@ const Index = () => {
                 content: message,
                 timestamp: new Date().toISOString(),
                 chatId: conv.id,
-                readByIds: [1], // Assuming current user id is 1
+                readByIds: [1],
               }
             ]
           }
@@ -94,8 +97,11 @@ const Index = () => {
             <Button onClick={toggleRightPane} variant="ghost" size="icon" className="mr-2">
               <CheckSquareIcon className="h-4 w-4" />
             </Button>
-            <Button onClick={() => setIsSettingsModalOpen(true)} variant="ghost" size="icon">
+            <Button onClick={() => setIsSettingsModalOpen(true)} variant="ghost" size="icon" className="mr-2">
               <Settings className="h-4 w-4" />
+            </Button>
+            <Button onClick={() => setIsShareModalOpen(true)} variant="ghost" size="icon">
+              <Share2 className="h-4 w-4" />
             </Button>
           </div>
         </header>
@@ -122,6 +128,7 @@ const Index = () => {
           )}
         </div>
         <SettingsModal isOpen={isSettingsModalOpen} onClose={() => setIsSettingsModalOpen(false)} />
+        <ShareModal isOpen={isShareModalOpen} onClose={() => setIsShareModalOpen(false)} chatId={activeConversation.id} />
       </div>
     </TaskProvider>
   );
