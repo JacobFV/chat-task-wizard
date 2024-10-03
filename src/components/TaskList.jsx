@@ -1,31 +1,34 @@
 import React from 'react';
 import { useTaskContext } from '../contexts/TaskContext';
 import ExpandedTaskView from './ExpandedTaskView';
+import { CheckSquareIcon } from 'lucide-react';
 
-const TaskList = () => {
+const TaskList = ({ activeConversationId }) => {
   const taskContext = useTaskContext();
   
-  // Check if taskContext is undefined or null
   if (!taskContext) {
     return <div>Loading tasks...</div>;
   }
 
   const { tasks, expandedTaskId, toggleTaskExpansion } = taskContext;
 
+  // Filter tasks for the active conversation
+  const filteredTasks = tasks.filter(task => task.context === `Conversation ${activeConversationId}`);
+
   return (
     <div className="bg-gray-900/50 backdrop-blur-md p-4 h-screen overflow-y-auto">
-      <h2 className="text-xl font-bold mb-4 text-gray-200">Active Tasks</h2>
       <ul className="space-y-2">
-        {tasks.map((task) => (
+        {filteredTasks.map((task) => (
           <li key={task.id} className="bg-gray-800/50 p-2 rounded shadow transition-all duration-300 hover:shadow-md">
             <div
-              className="cursor-pointer"
+              className="cursor-pointer flex items-center"
               onClick={() => toggleTaskExpansion(task.id)}
             >
+              <CheckSquareIcon className="h-5 w-5 mr-2" />
               <h3 className="font-semibold text-gray-200">{task.title}</h3>
-              <p className="text-sm text-gray-400">
-                Status: {task.readyForInput ? 'Ready for Input' : task.readyForOutput ? 'Ready for Output' : 'Processing'}
-              </p>
+              {task.active && (
+                <span className="ml-auto w-2 h-2 bg-green-500 rounded-full"></span>
+              )}
             </div>
             {expandedTaskId === task.id && <ExpandedTaskView task={task} />}
           </li>

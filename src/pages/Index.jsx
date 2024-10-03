@@ -3,7 +3,7 @@ import ConversationList from '../components/ConversationList';
 import ConversationView from '../components/ConversationView';
 import TaskList from '../components/TaskList';
 import { TaskProvider } from '../contexts/TaskContext';
-import { ChevronLeftIcon, ChevronRightIcon, MenuIcon } from 'lucide-react';
+import { ChevronLeftIcon, ChevronRightIcon, MessageSquareIcon, CheckSquareIcon } from 'lucide-react';
 
 const Index = () => {
   const [conversations, setConversations] = useState([
@@ -18,6 +18,7 @@ const Index = () => {
         { id: 5, author: 'user', content: 'What role does transparency play in ethical AI development?', timestamp: '2023-04-10T10:04:00Z', chatId: 1, readByIds: [1] },
         { id: 6, author: 'ai', content: 'Transparency is crucial in ethical AI development. It involves making the decision-making processes of AI systems understandable to users and stakeholders. This includes explaining how AI arrives at its conclusions, what data it uses, and its limitations. Transparency builds trust, allows for better oversight, and helps identify potential biases or errors in AI systems.', timestamp: '2023-04-10T10:05:00Z', chatId: 1, readByIds: [1] },
       ],
+      hasUnread: true,
     },
     {
       id: 2,
@@ -30,6 +31,7 @@ const Index = () => {
         { id: 11, author: 'user', content: 'What role can individuals play in combating climate change?', timestamp: '2023-04-11T14:04:00Z', chatId: 2, readByIds: [1] },
         { id: 12, author: 'ai', content: 'Individuals can play a significant role in combating climate change through various actions: 1) Reducing energy consumption at home and opting for renewable energy sources. 2) Choosing sustainable transportation options like walking, cycling, or using public transit. 3) Adopting a more plant-based diet to reduce the carbon footprint of food consumption. 4) Practicing responsible consumption and reducing waste. 5) Supporting and voting for policies and leaders committed to climate action. 6) Educating others and participating in community initiatives for sustainability.', timestamp: '2023-04-11T14:05:00Z', chatId: 2, readByIds: [1] },
       ],
+      hasUnread: false,
     },
   ]);
 
@@ -46,13 +48,15 @@ const Index = () => {
         <div className="absolute inset-0 overflow-hidden">
           <div className="shimmer"></div>
         </div>
-        <header className="flex justify-between items-center p-4 bg-gray-800 border-b border-gray-700 relative z-20">
-          <button onClick={toggleLeftPane} className="p-2 hover:bg-gray-700 rounded transition-colors">
-            <MenuIcon className="h-6 w-6" />
+        <header className="flex justify-between items-center p-2 bg-gray-800 border-b border-gray-700 relative z-20">
+          <button onClick={toggleLeftPane} className="p-2 hover:bg-gray-700 rounded transition-colors flex items-center">
+            <MessageSquareIcon className="h-5 w-5 mr-2" />
+            {leftPaneCollapsed ? 'Show Conversations' : 'Hide Conversations'}
           </button>
           <h1 className="text-xl font-bold">Chat Task Wizard</h1>
-          <button onClick={toggleRightPane} className="p-2 hover:bg-gray-700 rounded transition-colors">
-            <ChevronLeftIcon className="h-6 w-6" />
+          <button onClick={toggleRightPane} className="p-2 hover:bg-gray-700 rounded transition-colors flex items-center">
+            <CheckSquareIcon className="h-5 w-5 mr-2" />
+            {rightPaneCollapsed ? 'Show Tasks' : 'Hide Tasks'}
           </button>
         </header>
         <div className="flex flex-grow relative z-10">
@@ -69,7 +73,7 @@ const Index = () => {
             <ConversationView conversation={activeConversation} />
           </div>
           <div className={`transition-all duration-300 ${rightPaneCollapsed ? 'w-0' : 'w-1/4'} border-l border-gray-700`}>
-            {!rightPaneCollapsed && <TaskList />}
+            {!rightPaneCollapsed && <TaskList activeConversationId={activeConversation.id} />}
           </div>
         </div>
       </div>
