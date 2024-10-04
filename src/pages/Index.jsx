@@ -125,11 +125,11 @@ const Index = () => {
 
   return (
     <TaskProvider>
-      <div className="flex flex-col h-screen bg-gradient-to-br from-gray-800 via-gray-900 to-black text-gray-200 relative overflow-hidden">
+      <div className="flex flex-col h-screen bg-theme-gradient text-foreground relative overflow-hidden">
         <div className="absolute inset-0 overflow-hidden">
           <div className="shimmer"></div>
         </div>
-        <header className="flex justify-between items-center p-1 bg-gray-800 border-b border-gray-700 relative z-20">
+        <header className="flex justify-between items-center p-1 bg-theme-pane border-b border-border relative z-20">
           <Button onClick={toggleLeftPane} variant="ghost" size="icon">
             <MessageSquareIcon className="h-4 w-4" />
           </Button>
@@ -148,7 +148,7 @@ const Index = () => {
         </header>
         <div className="flex flex-grow relative z-10 overflow-hidden">
           {(!isMobileView || !leftPaneCollapsed) && (
-            <div className={`transition-all duration-300 ${isMobileView ? 'absolute inset-0 z-30' : leftPaneCollapsed ? 'w-0' : 'w-1/4'} border-r border-gray-700 overflow-y-auto`}>
+            <div className={`transition-all duration-300 ${isMobileView ? 'absolute inset-0 z-30' : leftPaneCollapsed ? 'w-0' : 'w-1/4'} border-r border-border overflow-y-auto bg-theme-pane`}>
               <ConversationList
                 conversations={conversations}
                 activeConversation={activeConversation}
@@ -164,12 +164,12 @@ const Index = () => {
             />
           </div>
           {(!isMobileView || !rightPaneCollapsed) && (
-            <div className={`transition-all duration-300 ${isMobileView ? 'absolute inset-0 z-30' : rightPaneCollapsed ? 'w-0' : 'w-1/4'} border-l border-gray-700 overflow-y-auto`}>
+            <div className={`transition-all duration-300 ${isMobileView ? 'absolute inset-0 z-30' : rightPaneCollapsed ? 'w-0' : 'w-1/4'} border-l border-border overflow-y-auto bg-theme-pane`}>
               <TaskList activeConversationId={activeConversation.id} />
             </div>
           )}
         </div>
-        <footer className="bg-gray-800 border-t border-gray-700 p-2 text-center text-xs text-gray-400 relative z-20">
+        <footer className="bg-theme-pane border-t border-border p-2 text-center text-xs text-muted-foreground relative z-20">
           Chat commands can make mistakes. <a href="#" className="underline">More info</a>
         </footer>
       </div>
