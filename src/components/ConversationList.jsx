@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MoreVertical, Settings, Share2, Edit2, Trash2, Plus } from 'lucide-react';
+import { MoreVertical, Settings, Share2, Edit2, Trash2, Plus, Flag } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -45,6 +45,11 @@ const ConversationList = ({ conversations, activeConversation, setActiveConversa
   const handleDelete = (chat) => {
     setSelectedChat(chat);
     setDeleteModalOpen(true);
+  };
+
+  const handleReportConversation = (chat) => {
+    console.log(`Reporting conversation: ${chat.id}`);
+    // Implement report conversation logic here
   };
 
   const confirmDelete = () => {
@@ -113,6 +118,10 @@ const ConversationList = ({ conversations, activeConversation, setActiveConversa
                   <DropdownMenuItem onClick={() => handleDelete(conversation)}>
                     <Trash2 className="mr-2 h-4 w-4" />
                     <span>Delete</span>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => handleReportConversation(conversation)}>
+                    <Flag className="mr-2 h-4 w-4" />
+                    <span>Report</span>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
