@@ -105,7 +105,7 @@ const Index = () => {
             </Button>
           </div>
         </header>
-        <div className="flex flex-grow relative z-10">
+        <div className="flex flex-grow relative z-10 pb-32"> {/* Added pb-32 for footer space */}
           {(!isMobileView || !leftPaneCollapsed) && (
             <div className={`transition-all duration-300 ${isMobileView ? 'absolute inset-0 z-30' : leftPaneCollapsed ? 'w-0' : 'w-1/4'} border-r border-gray-700`}>
               <ConversationList
@@ -127,6 +127,9 @@ const Index = () => {
             </div>
           )}
         </div>
+        <footer className="fixed bottom-0 left-0 right-0 h-32 bg-gray-800 border-t border-gray-700 flex items-center justify-center z-30">
+          <p className="text-gray-400">&copy; 2024 Chat Task Wizard. All rights reserved.</p>
+        </footer>
         <SettingsModal isOpen={isSettingsModalOpen} onClose={() => setIsSettingsModalOpen(false)} />
         <ShareModal isOpen={isShareModalOpen} onClose={() => setIsShareModalOpen(false)} chatId={activeConversation.id} />
       </div>
