@@ -82,6 +82,7 @@ const Index = () => {
     setActiveConversation(updatedConversations.find(conv => conv.id === activeConversation.id));
   };
 
+
   return (
     <TaskProvider>
       <div className="flex flex-col h-screen bg-gradient-to-br from-gray-800 via-gray-900 to-black text-gray-200 relative overflow-hidden">
@@ -105,7 +106,7 @@ const Index = () => {
             </Button>
           </div>
         </header>
-        <div className="flex flex-grow relative z-10 pb-16"> {/* Adjusted padding for new footer */}
+        <div className="flex flex-grow relative z-10">
           {(!isMobileView || !leftPaneCollapsed) && (
             <div className={`transition-all duration-300 ${isMobileView ? 'absolute inset-0 z-30' : leftPaneCollapsed ? 'w-0' : 'w-1/4'} border-r border-gray-700`}>
               <ConversationList
@@ -119,7 +120,6 @@ const Index = () => {
             <div className="flex-grow overflow-y-auto">
               <ConversationView conversation={activeConversation} />
             </div>
-            <ChatBar onSendMessage={handleSendMessage} />
           </div>
           {(!isMobileView || !rightPaneCollapsed) && (
             <div className={`transition-all duration-300 ${isMobileView ? 'absolute inset-0 z-30' : rightPaneCollapsed ? 'w-0' : 'w-1/4'} border-l border-gray-700`}>
@@ -138,9 +138,6 @@ const Index = () => {
             </Button>
           </div>
         </div>
-        <footer className="fixed bottom-0 left-0 right-0 h-4 bg-gray-800 border-t border-gray-700 flex items-center justify-center z-20">
-          <p className="text-xs text-gray-400">&copy; 2024 Chat Task Wizard</p>
-        </footer>
         <SettingsModal isOpen={isSettingsModalOpen} onClose={() => setIsSettingsModalOpen(false)} />
         <ShareModal isOpen={isShareModalOpen} onClose={() => setIsShareModalOpen(false)} chatId={activeConversation.id} />
       </div>
