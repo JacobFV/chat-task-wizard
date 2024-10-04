@@ -4,7 +4,7 @@ import ConversationView from '../components/ConversationView';
 import TaskList from '../components/TaskList';
 import ChatBar from '../components/ChatBar';
 import { TaskProvider } from '../contexts/TaskContext';
-import { MessageSquareIcon, CheckSquareIcon, Settings, Share2 } from 'lucide-react';
+import { MessageSquareIcon, CheckSquareIcon, Settings, Share2, Image, Mic } from 'lucide-react';
 import SettingsModal from '../components/SettingsModal';
 import ShareModal from '../components/ShareModal';
 import { Button } from '@/components/ui/button';
@@ -105,7 +105,7 @@ const Index = () => {
             </Button>
           </div>
         </header>
-        <div className="flex flex-grow relative z-10 pb-32"> {/* Added pb-32 for footer space */}
+        <div className="flex flex-grow relative z-10 pb-16"> {/* Adjusted padding for new footer */}
           {(!isMobileView || !leftPaneCollapsed) && (
             <div className={`transition-all duration-300 ${isMobileView ? 'absolute inset-0 z-30' : leftPaneCollapsed ? 'w-0' : 'w-1/4'} border-r border-gray-700`}>
               <ConversationList
@@ -127,8 +127,19 @@ const Index = () => {
             </div>
           )}
         </div>
-        <footer className="fixed bottom-0 left-0 right-0 h-32 bg-gray-800 border-t border-gray-700 flex items-center justify-center z-30">
-          <p className="text-gray-400">&copy; 2024 Chat Task Wizard. All rights reserved.</p>
+        <div className="fixed bottom-4 left-4 right-4 z-30">
+          <div className="bg-gray-800 rounded-full shadow-lg p-2 flex items-center">
+            <Button variant="ghost" size="icon" className="rounded-full">
+              <Image className="h-5 w-5" />
+            </Button>
+            <ChatBar onSendMessage={handleSendMessage} />
+            <Button variant="ghost" size="icon" className="rounded-full">
+              <Mic className="h-5 w-5" />
+            </Button>
+          </div>
+        </div>
+        <footer className="fixed bottom-0 left-0 right-0 h-4 bg-gray-800 border-t border-gray-700 flex items-center justify-center z-20">
+          <p className="text-xs text-gray-400">&copy; 2024 Chat Task Wizard</p>
         </footer>
         <SettingsModal isOpen={isSettingsModalOpen} onClose={() => setIsSettingsModalOpen(false)} />
         <ShareModal isOpen={isShareModalOpen} onClose={() => setIsShareModalOpen(false)} chatId={activeConversation.id} />
