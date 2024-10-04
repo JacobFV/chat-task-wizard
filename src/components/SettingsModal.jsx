@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Checkbox } from "@/components/ui/checkbox";
+import { PlusCircle, Trash2 } from 'lucide-react';
 
 // Mock action library - in a real app, this would be imported from a separate file
 const actionLibrary = [
@@ -21,6 +22,9 @@ const SettingsModal = ({ isOpen, onClose }) => {
   const [anthropicKey, setAnthropicKey] = useState('');
   const [teamMembers, setTeamMembers] = useState([]);
   const [enabledActions, setEnabledActions] = useState([]);
+  const [newMemberEmail, setNewMemberEmail] = useState('');
+  const [newMemberPermission, setNewMemberPermission] = useState('can_view');
+  const [theme, setTheme] = useState('system');
 
   useEffect(() => {
     setOpenaiKey(localStorage.getItem('OPENAI_API_KEY') || '');
@@ -32,11 +36,13 @@ const SettingsModal = ({ isOpen, onClose }) => {
       { id: 3, name: 'Bob Johnson', email: 'bob@example.com', defaultPermission: 'can_initiate' },
     ]);
     setEnabledActions(['web_search', 'code_execution']);
+    setTheme(localStorage.getItem('theme') || 'system');
   }, [isOpen]);
 
   const handleSave = () => {
     localStorage.setItem('OPENAI_API_KEY', openaiKey);
     localStorage.setItem('ANTHROPIC_API_KEY', anthropicKey);
+    localStorage.setItem('theme', theme);
     // Save other settings (team members, enabled actions) to backend or local storage
     onClose();
   };
@@ -55,6 +61,23 @@ const SettingsModal = ({ isOpen, onClose }) => {
     );
   };
 
+  const addTeamMember = () => {
+    if (newMemberEmail) {
+      setTeamMembers([...teamMembers, {
+        id: Date.now(),
+        name: newMemberEmail.split('@')[0],
+        email: newMemberEmail,
+        defaultPermission: newMemberPermission
+      }]);
+      setNewMemberEmail('');
+      setNewMemberPermission('can_view');
+    }
+  };
+
+  const removeTeamMember = (id) => {
+    setTeamMembers(teamMembers.filter(member => member.id !== id));
+  };
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[625px]">
@@ -62,11 +85,12 @@ const SettingsModal = ({ isOpen, onClose }) => {
           <DialogTitle>Settings</DialogTitle>
         </DialogHeader>
         <Tabs defaultValue="api_keys">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="api_keys">API Keys</TabsTrigger>
             <TabsTrigger value="team">Team</TabsTrigger>
             <TabsTrigger value="default_tools">Default Tools</TabsTrigger>
             <TabsTrigger value="integrations">Integrations</TabsTrigger>
+            <TabsTrigger value="appearance">Appearance</TabsTrigger>
           </TabsList>
           <TabsContent value="api_keys">
             <div className="grid gap-4 py-4">
@@ -120,8 +144,33 @@ const SettingsModal = ({ isOpen, onClose }) => {
                         <SelectItem value="can_invite">Can Invite Others</SelectItem>
                       </SelectContent>
                     </Select>
+                    <Button variant="destructive" size="sm" onClick={() => removeTeamMember(member.id)}>
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
                   </div>
                 ))}
+              </div>
+              <div className="flex items-center space-x-2">
+                <Input
+                  placeholder="New member email"
+                  value={newMemberEmail}
+                  onChange={(e) => setNewMemberEmail(e.target.value)}
+                />
+                <Select value={newMemberPermission} onValueChange={setNewMemberPermission}>
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Select permission" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="can_view">Can View</SelectItem>
+                    <SelectItem value="can_respond">Can Respond</SelectItem>
+                    <SelectItem value="can_initiate">Can Initiate Conversation</SelectItem>
+                    <SelectItem value="can_invite">Can Invite Others</SelectItem>
+                  </SelectContent>
+                </Select>
+                <Button onClick={addTeamMember}>
+                  <PlusCircle className="h-4 w-4 mr-2" />
+                  Add
+                </Button>
               </div>
             </div>
           </TabsContent>
@@ -160,6 +209,21 @@ const SettingsModal = ({ isOpen, onClose }) => {
                   <Button variant="outline" size="sm">Connect</Button>
                 </div>
               </div>
+            </div>
+          </TabsContent>
+          <TabsContent value="appearance">
+            <div className="space-y-4">
+              <h3 className="font-semibold">Theme:</h3>
+              <Select value={theme} onValueChange={setTheme}>
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Select theme" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="light">Light</SelectItem>
+                  <SelectItem value="dark">Dark</SelectItem>
+                  <SelectItem value="system">System</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </TabsContent>
         </Tabs>
