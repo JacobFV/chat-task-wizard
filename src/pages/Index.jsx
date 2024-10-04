@@ -148,7 +148,7 @@ const Index = () => {
         </header>
         <div className="flex flex-grow relative z-10 overflow-hidden">
           {(!isMobileView || !leftPaneCollapsed) && (
-            <div className={`transition-all duration-300 ${isMobileView ? 'absolute inset-0 z-30' : leftPaneCollapsed ? 'w-0' : 'w-1/4'} border-r border-gray-700 overflow-y-auto pb-16`}>
+            <div className={`transition-all duration-300 ${isMobileView ? 'absolute inset-0 z-30' : leftPaneCollapsed ? 'w-0' : 'w-1/4'} border-r border-gray-700 overflow-y-auto`}>
               <ConversationList
                 conversations={conversations}
                 activeConversation={activeConversation}
@@ -164,7 +164,7 @@ const Index = () => {
             />
           </div>
           {(!isMobileView || !rightPaneCollapsed) && (
-            <div className={`transition-all duration-300 ${isMobileView ? 'absolute inset-0 z-30' : rightPaneCollapsed ? 'w-0' : 'w-1/4'} border-l border-gray-700 overflow-y-auto pb-16`}>
+            <div className={`transition-all duration-300 ${isMobileView ? 'absolute inset-0 z-30' : rightPaneCollapsed ? 'w-0' : 'w-1/4'} border-l border-gray-700 overflow-y-auto`}>
               <TaskList activeConversationId={activeConversation.id} />
             </div>
           )}
