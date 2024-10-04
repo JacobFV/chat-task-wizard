@@ -21,18 +21,11 @@ const ChatSettingsModal = ({ isOpen, onClose, chat }) => {
   const [participants, setParticipants] = useState([]);
   const [newParticipant, setNewParticipant] = useState('');
   const [newParticipantPermission, setNewParticipantPermission] = useState('can_view');
-  const [teamMembers, setTeamMembers] = useState([]);
 
   useEffect(() => {
     if (chat) {
       setEnabledActions(chat.enabledActions || []);
       setParticipants(chat.participants || []);
-      // Mock team members data - in a real app, this would be fetched from an API
-      setTeamMembers([
-        { id: 1, name: 'John Doe', email: 'john@example.com' },
-        { id: 2, name: 'Jane Smith', email: 'jane@example.com' },
-        { id: 3, name: 'Bob Johnson', email: 'bob@example.com' },
-      ]);
     }
   }, [chat]);
 
@@ -74,9 +67,8 @@ const ChatSettingsModal = ({ isOpen, onClose, chat }) => {
           <DialogTitle>Chat Settings</DialogTitle>
         </DialogHeader>
         <Tabs defaultValue="participants">
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="participants">Participants</TabsTrigger>
-            <TabsTrigger value="team">Team</TabsTrigger>
             <TabsTrigger value="tools">Tools</TabsTrigger>
           </TabsList>
           <TabsContent value="participants">
@@ -126,23 +118,6 @@ const ChatSettingsModal = ({ isOpen, onClose, chat }) => {
                   </SelectContent>
                 </Select>
                 <Button onClick={addParticipant}>Add</Button>
-              </div>
-            </div>
-          </TabsContent>
-          <TabsContent value="team">
-            <div className="space-y-4">
-              <h3 className="font-semibold">Team Members:</h3>
-              <div className="space-y-2">
-                {teamMembers.map((member) => (
-                  <div key={member.id} className="flex items-center space-x-2">
-                    <Avatar className="h-6 w-6">
-                      <AvatarImage src={`https://api.dicebear.com/6.x/initials/svg?seed=${member.name}`} />
-                      <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
-                    </Avatar>
-                    <span>{member.name}</span>
-                    <span className="text-sm text-gray-500">{member.email}</span>
-                  </div>
-                ))}
               </div>
             </div>
           </TabsContent>
