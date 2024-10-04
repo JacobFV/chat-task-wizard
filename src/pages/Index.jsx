@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import ConversationList from '../components/ConversationList';
 import ConversationView from '../components/ConversationView';
 import TaskList from '../components/TaskList';
-import ChatBar from '../components/ChatBar';
 import { TaskProvider } from '../contexts/TaskContext';
 import { MessageSquareIcon, CheckSquareIcon, Settings, Share2 } from 'lucide-react';
 import SettingsModal from '../components/SettingsModal';
@@ -124,7 +123,6 @@ const Index = () => {
     setActiveConversation(updatedConversations.find(conv => conv.id === activeConversation.id));
   };
 
-
   return (
     <TaskProvider>
       <div className="flex flex-col h-screen bg-gradient-to-br from-gray-800 via-gray-900 to-black text-gray-200 relative overflow-hidden">
@@ -150,7 +148,7 @@ const Index = () => {
         </header>
         <div className="flex flex-grow relative z-10 overflow-hidden">
           {(!isMobileView || !leftPaneCollapsed) && (
-            <div className={`transition-all duration-300 ${isMobileView ? 'absolute inset-0 z-30' : leftPaneCollapsed ? 'w-0' : 'w-1/4'} border-r border-gray-700 overflow-y-auto`}>
+            <div className={`transition-all duration-300 ${isMobileView ? 'absolute inset-0 z-30' : leftPaneCollapsed ? 'w-0' : 'w-1/4'} border-r border-gray-700 overflow-y-auto pb-16`}>
               <ConversationList
                 conversations={conversations}
                 activeConversation={activeConversation}
@@ -159,29 +157,24 @@ const Index = () => {
             </div>
           )}
           <div className={`transition-all duration-300 flex flex-col ${isMobileView ? 'w-full' : leftPaneCollapsed && rightPaneCollapsed ? 'w-full' : leftPaneCollapsed || rightPaneCollapsed ? 'w-3/4' : 'w-1/2'} overflow-hidden`}>
-            <div className="flex-grow overflow-y-auto">
-              <ConversationView
-                conversation={activeConversation}
-                onUpdateMessage={handleUpdateMessage}
-                onDeleteMessage={handleDeleteMessage}
-              />
-            </div>
-            <div className="p-4 bg-gray-800 border-t border-gray-700">
-              <ChatBar onSendMessage={handleSendMessage} />
-            </div>
+            <ConversationView
+              conversation={activeConversation}
+              onUpdateMessage={handleUpdateMessage}
+              onDeleteMessage={handleDeleteMessage}
+            />
           </div>
           {(!isMobileView || !rightPaneCollapsed) && (
-            <div className={`transition-all duration-300 ${isMobileView ? 'absolute inset-0 z-30' : rightPaneCollapsed ? 'w-0' : 'w-1/4'} border-l border-gray-700 overflow-y-auto`}>
+            <div className={`transition-all duration-300 ${isMobileView ? 'absolute inset-0 z-30' : rightPaneCollapsed ? 'w-0' : 'w-1/4'} border-l border-gray-700 overflow-y-auto pb-16`}>
               <TaskList activeConversationId={activeConversation.id} />
             </div>
           )}
         </div>
-        <footer className="bg-gray-800 border-t border-gray-700 p-4 text-center text-sm text-gray-400 relative z-20">
-          © 2024 Chat Task Wizard. All rights reserved.
+        <footer className="bg-gray-800 border-t border-gray-700 p-2 text-center text-xs text-gray-400 relative z-20">
+          Chat commands can make mistakes. <a href="#" className="underline">More info</a>
         </footer>
-        <SettingsModal isOpen={isSettingsModalOpen} onClose={() => setIsSettingsModalOpen(false)} />
-        <ShareModal isOpen={isShareModalOpen} onClose={() => setIsShareModalOpen(false)} chatId={activeConversation.id} />
       </div>
+      <SettingsModal isOpen={isSettingsModalOpen} onClose={() => setIsSettingsModalOpen(false)} />
+      <ShareModal isOpen={isShareModalOpen} onClose={() => setIsShareModalOpen(false)} chatId={activeConversation.id} />
     </TaskProvider>
   );
 };

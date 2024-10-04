@@ -129,7 +129,7 @@ const ConversationList = ({ conversations, activeConversation, setActiveConversa
           </li>
         ))}
       </ul>
-      <Button onClick={onNewChat} className="mt-4 w-full">
+      <Button onClick={onNewChat} className="mt-4 mb-8 w-full">
         <Plus className="mr-2 h-4 w-4" /> New Chat
       </Button>
       <ChatSettingsModal
