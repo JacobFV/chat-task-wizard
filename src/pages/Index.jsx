@@ -147,9 +147,9 @@ const Index = () => {
             </Button>
           </div>
         </header>
-        <div className="flex flex-grow relative z-10">
+        <div className="flex flex-grow relative z-10 overflow-hidden">
           {(!isMobileView || !leftPaneCollapsed) && (
-            <div className={`transition-all duration-300 ${isMobileView ? 'absolute inset-0 z-30' : leftPaneCollapsed ? 'w-0' : 'w-1/4'} border-r border-gray-700`}>
+            <div className={`transition-all duration-300 ${isMobileView ? 'absolute inset-0 z-30' : leftPaneCollapsed ? 'w-0' : 'w-1/4'} border-r border-gray-700 overflow-y-auto`}>
               <ConversationList
                 conversations={conversations}
                 activeConversation={activeConversation}
@@ -157,7 +157,7 @@ const Index = () => {
               />
             </div>
           )}
-          <div className={`transition-all duration-300 flex flex-col ${isMobileView ? 'w-full' : leftPaneCollapsed && rightPaneCollapsed ? 'w-full' : leftPaneCollapsed || rightPaneCollapsed ? 'w-3/4' : 'w-1/2'}`}>
+          <div className={`transition-all duration-300 flex flex-col ${isMobileView ? 'w-full' : leftPaneCollapsed && rightPaneCollapsed ? 'w-full' : leftPaneCollapsed || rightPaneCollapsed ? 'w-3/4' : 'w-1/2'} overflow-hidden`}>
             <div className="flex-grow overflow-y-auto">
               <ConversationView
                 conversation={activeConversation}
@@ -167,16 +167,19 @@ const Index = () => {
             </div>
           </div>
           {(!isMobileView || !rightPaneCollapsed) && (
-            <div className={`transition-all duration-300 ${isMobileView ? 'absolute inset-0 z-30' : rightPaneCollapsed ? 'w-0' : 'w-1/4'} border-l border-gray-700`}>
+            <div className={`transition-all duration-300 ${isMobileView ? 'absolute inset-0 z-30' : rightPaneCollapsed ? 'w-0' : 'w-1/4'} border-l border-gray-700 overflow-y-auto`}>
               <TaskList activeConversationId={activeConversation.id} />
             </div>
           )}
         </div>
-        <div className="fixed bottom-4 left-4 right-4 z-30">
+        <div className="fixed bottom-16 left-4 right-4 z-30">
           <div className="bg-gray-800 rounded-full shadow-lg p-2 flex items-center">
             <ChatBar onSendMessage={handleSendMessage} />
           </div>
         </div>
+        <footer className="bg-gray-800 border-t border-gray-700 p-4 text-center text-sm text-gray-400 relative z-20">
+          © 2024 Chat Task Wizard. All rights reserved.
+        </footer>
         <SettingsModal isOpen={isSettingsModalOpen} onClose={() => setIsSettingsModalOpen(false)} />
         <ShareModal isOpen={isShareModalOpen} onClose={() => setIsShareModalOpen(false)} chatId={activeConversation.id} />
       </div>
