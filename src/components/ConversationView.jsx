@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { addMessage } from '../utils/messageLog';
 import { Avatar } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -7,6 +6,9 @@ import { MoreVertical, Pencil, Trash2, Share2, Flag } from 'lucide-react';
 import DeleteConfirmModal from './DeleteConfirmModal';
 import ShareModal from './ShareModal';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import ReactMarkdown from 'react-markdown';
+import 'katex/dist/katex.min.css';
+import { InlineMath, BlockMath } from 'react-katex';
 
 const ConversationView = ({ conversation, onUpdateMessage, onDeleteMessage }) => {
   const [editingMessageId, setEditingMessageId] = useState(null);
@@ -40,10 +42,23 @@ const ConversationView = ({ conversation, onUpdateMessage, onDeleteMessage }) =>
     // Implement report message logic here
   };
 
+  const renderMessage = (content) => {
+    return (
+      <ReactMarkdown
+        components={{
+          inlineMath: ({ value }) => <InlineMath math={value} />,
+          math: ({ value }) => <BlockMath math={value} />,
+        }}
+      >
+        {content}
+      </ReactMarkdown>
+    );
+  };
+
   return (
-    <div className="bg-gray-900/50 backdrop-blur-md p-4 h-screen overflow-y-auto">
+    <div className="bg-gray-900/50 backdrop-blur-md p-4 h-full overflow-y-auto flex flex-col">
       <h2 className="text-xl font-bold mb-4 text-gray-200">{conversation.title}</h2>
-      <div className="space-y-4">
+      <div className="space-y-4 flex-grow overflow-y-auto">
         {conversation.messages.map((message) => (
           <div
             key={message.id}
@@ -94,7 +109,7 @@ const ConversationView = ({ conversation, onUpdateMessage, onDeleteMessage }) =>
                 <Button onClick={handleEditSubmit} size="sm">Save</Button>
               </div>
             ) : (
-              <p>{message.content}</p>
+              <div className="text-left">{renderMessage(message.content)}</div>
             )}
             <small className="text-gray-400 block mt-1">
               {new Date(message.timestamp).toLocaleString()} - Read by: {message.readByIds.length}
