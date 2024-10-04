@@ -102,9 +102,9 @@
 }
 
 .bg-theme-gradient {
-  @apply bg-gradient-to-br from-gray-100 via-gray-200 to-gray-300 dark:from-gray-800 dark:via-gray-900 dark:to-black;
+  @apply bg-gradient-to-br from-gray-50 via-gray-100 to-gray-200 dark:from-gray-800 dark:via-gray-900 dark:to-black;
 }
 
 .bg-theme-pane {
-  @apply bg-gray-100/50 dark:bg-gray-900/50 backdrop-blur-md;
+  @apply bg-white/50 dark:bg-gray-900/50 backdrop-blur-md;
 }
