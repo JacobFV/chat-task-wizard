@@ -124,6 +124,7 @@ const Index = () => {
     setActiveConversation(updatedConversations.find(conv => conv.id === activeConversation.id));
   };
 
+
   return (
     <TaskProvider>
       <div className="flex flex-col h-screen bg-gradient-to-br from-gray-800 via-gray-900 to-black text-gray-200 relative overflow-hidden">
@@ -165,17 +166,15 @@ const Index = () => {
                 onDeleteMessage={handleDeleteMessage}
               />
             </div>
+            <div className="p-4 bg-gray-800 border-t border-gray-700">
+              <ChatBar onSendMessage={handleSendMessage} />
+            </div>
           </div>
           {(!isMobileView || !rightPaneCollapsed) && (
             <div className={`transition-all duration-300 ${isMobileView ? 'absolute inset-0 z-30' : rightPaneCollapsed ? 'w-0' : 'w-1/4'} border-l border-gray-700 overflow-y-auto`}>
               <TaskList activeConversationId={activeConversation.id} />
             </div>
           )}
-        </div>
-        <div className="fixed bottom-16 left-4 right-4 z-30">
-          <div className="bg-gray-800 rounded-full shadow-lg p-2 flex items-center">
-            <ChatBar onSendMessage={handleSendMessage} />
-          </div>
         </div>
         <footer className="bg-gray-800 border-t border-gray-700 p-4 text-center text-sm text-gray-400 relative z-20">
           © 2024 Chat Task Wizard. All rights reserved.
