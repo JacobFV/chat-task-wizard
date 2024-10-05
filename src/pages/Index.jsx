@@ -3,12 +3,16 @@ import ConversationList from '../components/ConversationList';
 import ConversationView from '../components/ConversationView';
 import TaskList from '../components/TaskList';
 import { TaskProvider } from '../contexts/TaskContext';
-import { MessageSquareIcon, CheckSquareIcon, Settings, Share2 } from 'lucide-react';
+import { MessageSquareIcon, CheckSquareIcon, Settings, Share2, LogOut } from 'lucide-react';
 import SettingsModal from '../components/SettingsModal';
 import ShareModal from '../components/ShareModal';
 import { Button } from '@/components/ui/button';
+import SignInModal from '../components/SignInModal';
+import SignUpModal from '../components/SignUpModal';
+import { useSupabaseClient } from '../contexts/SupabaseContext';
 
 const Index = () => {
+  const supabase = useSupabaseClient();
   const [conversations, setConversations] = useState([
     {
       id: 1,
@@ -60,6 +64,10 @@ const Index = () => {
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [isMobileView, setIsMobileView] = useState(window.innerWidth < 768);
+  /*
+  const [isSignInOpen, setIsSignInOpen] = useState(false);
+  const [isSignUpOpen, setIsSignUpOpen] = useState(false);
+  */
 
   const toggleLeftPane = () => setLeftPaneCollapsed(!leftPaneCollapsed);
   const toggleRightPane = () => setRightPaneCollapsed(!rightPaneCollapsed);
@@ -123,6 +131,10 @@ const Index = () => {
     setActiveConversation(updatedConversations.find(conv => conv.id === activeConversation.id));
   };
 
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+  };
+
   return (
     <TaskProvider>
       <div className="flex flex-col h-screen bg-theme-gradient text-foreground relative overflow-hidden">
@@ -141,8 +153,11 @@ const Index = () => {
             <Button onClick={() => setIsSettingsModalOpen(true)} variant="ghost" size="icon" className="mr-2">
               <Settings className="h-4 w-4" />
             </Button>
-            <Button onClick={() => setIsShareModalOpen(true)} variant="ghost" size="icon">
+            <Button onClick={() => setIsShareModalOpen(true)} variant="ghost" size="icon" className="mr-2">
               <Share2 className="h-4 w-4" />
+            </Button>
+            <Button onClick={handleSignOut} variant="ghost" size="icon">
+              <LogOut className="h-4 w-4" />
             </Button>
           </div>
         </header>
@@ -175,6 +190,13 @@ const Index = () => {
       </div>
       <SettingsModal isOpen={isSettingsModalOpen} onClose={() => setIsSettingsModalOpen(false)} />
       <ShareModal isOpen={isShareModalOpen} onClose={() => setIsShareModalOpen(false)} chatId={activeConversation.id} />
+      {/*
+      <Button onClick={() => setIsSignInOpen(true)}>Sign In</Button>
+      <Button onClick={() => setIsSignUpOpen(true)}>Sign Up</Button>
+
+      <SignInModal isOpen={isSignInOpen} onClose={() => setIsSignInOpen(false)} />
+      <SignUpModal isOpen={isSignUpOpen} onClose={() => setIsSignUpOpen(false)} />
+      */}
     </TaskProvider>
   );
 };
