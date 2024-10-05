@@ -57,14 +57,14 @@ const ConversationView = ({ conversation, onSendMessage, onUpdateMessage, onDele
   };
 
   return (
-    <div className="bg-gray-900/50 backdrop-blur-md p-4 h-full flex flex-col">
-      <h2 className="text-xl font-bold mb-4 text-gray-200">{conversation.title}</h2>
+    <div className="bg-theme-pane backdrop-blur-md p-4 h-full flex flex-col">
+      <h2 className="text-xl font-bold mb-4 text-foreground">{conversation.title}</h2>
       <div className="space-y-4 flex-grow overflow-y-auto">
         {conversation.messages.map((message) => (
           <div
             key={message.id}
             className={`p-2 rounded ${
-              message.author === 'user' ? 'bg-gray-700/50 text-right' : 'bg-gray-800/50'
+              message.author === 'user' ? 'bg-message-user text-right' : 'bg-message-assistant'
             }`}
           >
             <div className="flex items-center mb-2 justify-between">
@@ -72,7 +72,7 @@ const ConversationView = ({ conversation, onSendMessage, onUpdateMessage, onDele
                 <Avatar className="h-6 w-6 mr-2">
                   <img src={`https://api.dicebear.com/6.x/initials/svg?seed=${message.author}`} alt={message.author} />
                 </Avatar>
-                <span className="text-sm text-gray-400">{message.author}</span>
+                <span className="text-sm text-muted-foreground">{message.author}</span>
               </div>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -110,16 +110,18 @@ const ConversationView = ({ conversation, onSendMessage, onUpdateMessage, onDele
                 <Button onClick={handleEditSubmit} size="sm">Save</Button>
               </div>
             ) : (
-              <div className="text-left">{renderMessage(message.content)}</div>
+              <div className="text-left text-foreground">{renderMessage(message.content)}</div>
             )}
-            <small className="text-gray-400 block mt-1">
+            <small className="text-xs text-muted-foreground block mt-1">
               {new Date(message.timestamp).toLocaleString()} - Read by: {message.readByIds.length}
             </small>
           </div>
         ))}
       </div>
-      {/* Add the ChatBar component here */}
-      <ChatBar onSendMessage={onSendMessage} />
+      {/* Add margin around the ChatBar */}
+      <div className="m-4">
+        <ChatBar onSendMessage={onSendMessage} />
+      </div>
       {/* Modals */}
       <DeleteConfirmModal
         isOpen={deleteModalOpen}

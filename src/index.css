@@ -108,3 +108,55 @@
 .bg-theme-pane {
   @apply bg-white/90 dark:bg-gray-900/50 backdrop-blur-sm;
 }
+
+@layer components {
+  .bg-theme-pane {
+    @apply bg-background backdrop-blur-sm;
+  }
+
+  .bg-theme-selected {
+    @apply bg-secondary;
+  }
+
+  .hover\:bg-theme-hover:hover {
+    @apply bg-muted;
+  }
+
+  .bg-message-user {
+    @apply bg-muted;
+  }
+
+  .bg-message-assistant {
+    @apply bg-card;
+  }
+
+  .bg-task-item {
+    @apply bg-card;
+  }
+
+  .text-foreground {
+    color: hsl(var(--foreground));
+  }
+
+  .text-muted-foreground {
+    color: hsl(var(--muted-foreground));
+  }
+
+  .border-border {
+    border-color: hsl(var(--border));
+  }
+
+  .bg-primary {
+    background-color: hsl(var(--primary));
+  }
+
+  .text-primary {
+    color: hsl(var(--primary));
+  }
+
+  .hover\:text-primary\/80:hover {
+    color: hsl(var(--primary) / 0.8);
+  }
+}
+
+/* Add any other necessary utility classes */

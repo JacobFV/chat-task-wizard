@@ -64,13 +64,14 @@ const ConversationList = ({ conversations, activeConversation, setActiveConversa
   };
 
   return (
-    <div className="bg-gray-900/50 backdrop-blur-md p-4 h-screen overflow-y-auto flex flex-col">
+    // Replace 'bg-gray-900/50' with 'bg-theme-pane'
+    <div className="bg-theme-pane backdrop-blur-md p-4 h-screen overflow-y-auto flex flex-col">
       <ul className="flex-grow">
         {conversations.map((conversation) => (
           <li
             key={conversation.id}
             className={`cursor-pointer p-2 mb-2 rounded transition-all duration-300 ${
-              activeConversation.id === conversation.id ? 'bg-gray-700/50 shadow-md' : 'hover:bg-gray-800/50'
+              activeConversation.id === conversation.id ? 'bg-theme-selected shadow-md' : 'hover:bg-theme-hover'
             }`}
           >
             <div
@@ -79,19 +80,19 @@ const ConversationList = ({ conversations, activeConversation, setActiveConversa
             >
               <div className="flex items-center flex-grow">
                 <div className="flex -space-x-2 mr-2">
-                  {conversation.participants.slice(0, 3).map((participant, index) => (
-                    <Avatar key={participant.id} className="h-6 w-6 border-2 border-gray-800">
+                  {conversation.participants.slice(0, 3).map((participant) => (
+                    <Avatar key={participant.id} className="h-6 w-6 border-2 border-border">
                       <AvatarImage src={`https://api.dicebear.com/6.x/initials/svg?seed=${participant.name}`} />
                       <AvatarFallback>{participant.name.charAt(0)}</AvatarFallback>
                     </Avatar>
                   ))}
                   {conversation.participants.length > 3 && (
-                    <Avatar className="h-6 w-6 border-2 border-gray-800">
+                    <Avatar className="h-6 w-6 border-2 border-border">
                       <AvatarFallback>+{conversation.participants.length - 3}</AvatarFallback>
                     </Avatar>
                   )}
                 </div>
-                <span className="text-sm truncate">{conversation.title}</span>
+                <span className="text-sm truncate text-foreground">{conversation.title}</span>
                 {conversation.hasUnread && (
                   <span className="ml-auto w-2 h-2 bg-blue-500 rounded-full"></span>
                 )}

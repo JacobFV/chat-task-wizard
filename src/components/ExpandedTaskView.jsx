@@ -8,10 +8,14 @@ const ExpandedTaskView = ({ task }) => {
   };
 
   return (
-    <div className="mt-2 p-2 bg-gray-700/50 rounded">
-      <p className="text-sm text-gray-300 mb-2">{task.description}</p>
-      <p className="text-xs text-gray-400">
-        Context: <Link to={`/conversation/${task.context.split(' ')[1]}`} className="text-blue-300 hover:text-blue-200 underline">
+    <div className="mt-2 p-2 bg-task-item rounded">
+      <p className="text-sm text-foreground mb-2">{task.description}</p>
+      <p className="text-xs text-muted-foreground">
+        Context:{' '}
+        <Link
+          to={`/conversation/${task.context.split(' ')[1]}`}
+          className="text-primary hover:text-primary/80 underline"
+        >
           {truncateMessage(task.contextMessage)}
         </Link>
       </p>
