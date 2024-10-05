@@ -9,8 +9,9 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import ReactMarkdown from 'react-markdown';
 import 'katex/dist/katex.min.css';
 import { InlineMath, BlockMath } from 'react-katex';
+import ChatBar from './ChatBar'; // Import the ChatBar component
 
-const ConversationView = ({ conversation, onUpdateMessage, onDeleteMessage }) => {
+const ConversationView = ({ conversation, onSendMessage, onUpdateMessage, onDeleteMessage }) => {
   const [editingMessageId, setEditingMessageId] = useState(null);
   const [editedContent, setEditedContent] = useState('');
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
@@ -56,7 +57,7 @@ const ConversationView = ({ conversation, onUpdateMessage, onDeleteMessage }) =>
   };
 
   return (
-    <div className="bg-gray-900/50 backdrop-blur-md p-4 h-full overflow-y-auto flex flex-col">
+    <div className="bg-gray-900/50 backdrop-blur-md p-4 h-full flex flex-col">
       <h2 className="text-xl font-bold mb-4 text-gray-200">{conversation.title}</h2>
       <div className="space-y-4 flex-grow overflow-y-auto">
         {conversation.messages.map((message) => (
@@ -117,6 +118,9 @@ const ConversationView = ({ conversation, onUpdateMessage, onDeleteMessage }) =>
           </div>
         ))}
       </div>
+      {/* Add the ChatBar component here */}
+      <ChatBar onSendMessage={onSendMessage} />
+      {/* Modals */}
       <DeleteConfirmModal
         isOpen={deleteModalOpen}
         onClose={() => setDeleteModalOpen(false)}
